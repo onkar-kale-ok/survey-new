@@ -56,16 +56,20 @@ exports.surveyList = async (req, res) => {
     if (userRole.length !== 0) {
       if (userRole[0].user_role == 'admin') {
         const result = await query(`SELECT * from survey_details.surveys where userId =${userId} LIMIT ${limit} OFFSET ${offset} `);
+        const totalCount =await query(`SELECT Count(1) as totalcount from survey_details.surveys where userId =${userId}`); 
+
         if (result.length !== 0) {
-          return res.send({ resultCode: 200, resultMessage: "Survey details", responseData: result });
+          return res.send({ resultCode: 200, resultMessage: "Survey details", totalCount:totalCount[0].totalcount ,responseData: result });
 
         }
         return res.send({ resultCode: 201, resultMessage: "Survey details not found" });
       } else {
 
         const result = await query(`SELECT * from survey_details.surveys LIMIT ${limit} OFFSET ${offset}`);
+        const totalCount =await query(`SELECT Count(1) as totalcount from survey_details.surveys`); 
+
         if (result.length !== 0) {
-          return res.send({ resultCode: 200, resultMessage: "Survey details", responseData: result });
+          return res.send({ resultCode: 200, resultMessage: "Survey details",totalCount:totalCount[0].totalcount, responseData: result });
 
         }
         return res.send({ resultCode: 201, resultMessage: "Survey details not found" });
