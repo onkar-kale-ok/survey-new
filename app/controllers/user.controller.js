@@ -76,7 +76,7 @@ exports.getUserList = async (req, res) => {
     {
     const totalRecord = await query(`SELECT count(1) as totalcount  from survey_details.users `);
     if (totalRecord[0].totalcount !== 0) {
-      const result = await query(`SELECT user_Email,user_Firstname,user_Lastname,user_role from survey_details.users LIMIT ${limit} OFFSET ${offset}`);
+      const result = await query(`SELECT id,user_Email,user_Firstname,user_Lastname,user_role from survey_details.users LIMIT ${limit} OFFSET ${offset}`);
       return res.send({ resultCode: 200, resultMessage: "User details",totalCount:totalRecord[0].totalcount, responseData: result });
 
     }
